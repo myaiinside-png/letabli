@@ -9,6 +9,7 @@ L'Établi est un établi partagé : une collection d'outils qui reprennent, une 
 Ce n'est ni une plateforme, ni une entreprise de désintermédiation. Pas de commission, pas de compte, pas de données captées : les outils tournent dans le navigateur de la personne.
 
 → Lire le [**Manifeste**](MANIFESTE.md).
+→ Découvrir [**les chantiers**](tribunes/les-chantiers.md) : les domaines qu'on va ouvrir, et ce qu'on laissera fermé.
 
 ---
 
@@ -45,7 +46,8 @@ letabli/
 ├── MANIFESTE.md      → le texte fondateur
 ├── README.md         → ce fichier
 ├── LICENSE           → AGPL-3.0 (le code)
-├── tribunes/         → les textes / prises de position (à venir)
+├── tribunes/         → les textes / prises de position
+│   └── les-chantiers.md
 └── outils/           → les outils intégrés (au fur et à mesure)
 ```
 
