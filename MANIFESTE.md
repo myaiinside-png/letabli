@@ -1,5 +1,7 @@
 # L'Établi — Manifeste
 
+> *Rendre la carte, sans redessiner le territoire.*
+
 *Version de travail. Provisoire, comme doit l'être un texte qui vient d'un geste et pas d'une théorie.*
 
 ---
