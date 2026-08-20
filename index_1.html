@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L'Établi — fais la part que tu peux faire toi-même</title>
+<meta name="description" content="L'Établi rend la carte des démarches qu'on paie trop cher pour ne pas les faire soi-même. Des outils libres, qui accompagnent jusqu'au seuil du professionnel — et s'arrêtent là.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bench:#E6DECD;        /* plan de travail, bois clair */
+    --paper:#F2EDE1;        /* kraft plus clair, cartes */
+    --paper-hi:#F8F4EA;
+    --graphite:#211F1B;     /* mine de crayon, encre */
+    --graphite-soft:#655F54;
+    --line:#CDC4B0;         /* trait léger */
+    --steel:#365D6E;        /* acier bleui — l'outil */
+    --steel-ink:#20404E;
+    --chalk:#6F91A4;        /* bleu de cordeau */
+    --chalk-soft:#B9CAD3;
+    --rust:#A6472E;         /* marque de crayon rouge, très rare */
+    --serif:"Newsreader",Georgia,serif;
+    --disp:"Bricolage Grotesque",system-ui,sans-serif;
+    --mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;background:var(--bench);color:var(--graphite);
+    font-family:var(--serif);font-size:18px;line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    background-image:
+      radial-gradient(circle at 1px 1px, rgba(33,31,27,.035) 1px, transparent 0);
+    background-size:22px 22px;
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:0 28px}
+
+  /* ---------- barre ---------- */
+  header.top{padding:26px 0 0}
+  .top-in{display:flex;justify-content:space-between;align-items:baseline;gap:16px}
+  .brand{font-family:var(--disp);font-weight:700;font-size:22px;letter-spacing:-.02em;color:var(--graphite);text-decoration:none}
+  .brand .the{color:var(--graphite-soft);font-weight:500}
+  .top-nav{font-family:var(--mono);font-size:12.5px;display:flex;gap:22px}
+  .top-nav a{color:var(--graphite-soft);text-decoration:none}
+  .top-nav a:hover{color:var(--steel-ink)}
+
+  /* ---------- héros ---------- */
+  .hero{padding:76px 0 40px}
+  .eyebrow{font-family:var(--mono);font-size:12.5px;letter-spacing:.02em;color:var(--steel-ink);
+    text-transform:uppercase;margin:0 0 22px}
+  .hero h1{font-family:var(--disp);font-weight:600;font-size:clamp(38px,7vw,74px);
+    line-height:1.02;letter-spacing:-.03em;margin:0;max-width:15ch}
+  .hero h1 em{font-style:normal;color:var(--steel)}
+  /* cordeau à tracer */
+  .snapline{margin:38px 0 16px;height:22px;position:relative}
+  .hero .exergue{font-family:var(--serif);font-style:italic;font-size:15.5px;
+    color:var(--graphite-soft);letter-spacing:.01em;margin:0 0 30px}
+  .snapline svg{display:block;width:100%;height:22px;overflow:visible}
+  .snapline .cord{stroke:var(--chalk);stroke-width:2;
+    stroke-dasharray:1200;stroke-dashoffset:1200;
+    animation:snap 1.1s .25s cubic-bezier(.2,.8,.2,1) forwards}
+  .snapline .peg{fill:var(--steel)}
+  @keyframes snap{to{stroke-dashoffset:0}}
+  .hero .lead{font-size:clamp(19px,2.4vw,22px);max-width:56ch;margin:0;color:var(--graphite)}
+  .hero .lead strong{font-weight:500;box-shadow:inset 0 -.42em 0 rgba(111,145,164,.28)}
+
+  /* ---------- sections ---------- */
+  section{padding:56px 0}
+  .kicker{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--steel-ink);margin:0 0 20px;display:flex;align-items:center;gap:12px}
+  .kicker::before{content:"";width:26px;height:2px;background:var(--chalk)}
+  h2{font-family:var(--disp);font-weight:600;font-size:clamp(26px,4vw,38px);letter-spacing:-.02em;
+    line-height:1.08;margin:0 0 20px;max-width:20ch}
+  .prose{max-width:62ch}
+  .prose p{margin:0 0 18px}
+  .prose p:last-child{margin-bottom:0}
+  .prose em{font-style:italic}
+  .pull{font-family:var(--disp);font-weight:500;font-size:clamp(22px,3.2vw,30px);
+    line-height:1.18;letter-spacing:-.02em;color:var(--steel-ink);max-width:24ch;margin:0}
+
+  /* ---------- doctrine + critères en deux colonnes ---------- */
+  .split{display:grid;gap:44px}
+  @media(min-width:820px){.split{grid-template-columns:1.15fr .85fr;gap:64px;align-items:start}}
+
+  .criteria{border-left:2px solid var(--steel);padding-left:26px}
+  .crit{padding:18px 0;border-bottom:1px solid var(--line)}
+  .crit:first-child{padding-top:0}
+  .crit:last-child{border-bottom:0;padding-bottom:0}
+  .crit .n{font-family:var(--mono);font-size:12.5px;color:var(--steel);display:block;margin-bottom:6px}
+  .crit .t{font-family:var(--disp);font-weight:600;font-size:19px;letter-spacing:-.01em;margin:0 0 4px}
+  .crit .d{font-size:15.5px;color:var(--graphite-soft);line-height:1.5;margin:0}
+
+  /* ---------- atelier / outils ---------- */
+  .atelier{background:var(--paper);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .grid{display:grid;gap:18px;margin-top:8px}
+  @media(min-width:640px){.grid{grid-template-columns:1fr 1fr}}
+  @media(min-width:960px){.grid{grid-template-columns:1fr 1fr 1fr}}
+  .tool{background:var(--paper-hi);border:1px solid var(--line);border-radius:10px;
+    padding:22px 20px 20px;display:flex;flex-direction:column;gap:10px;
+    text-decoration:none;color:inherit;position:relative;transition:transform .15s ease,border-color .15s ease,box-shadow .15s ease}
+  a.tool:hover{transform:translateY(-3px);border-color:var(--steel);box-shadow:0 10px 24px -18px rgba(32,64,78,.5)}
+  .tool .tag{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;
+    display:inline-flex;align-items:center;gap:7px;width:max-content}
+  .tool .tag.live{color:var(--steel-ink)}
+  .tool .tag.soon{color:var(--graphite-soft)}
+  .tool .tag .dot{width:7px;height:7px;border-radius:50%;background:var(--rust)}
+  .tool .tag.live .dot{background:var(--steel)}
+  .tool h3{font-family:var(--disp);font-weight:600;font-size:20px;letter-spacing:-.01em;margin:2px 0 0}
+  .tool p{font-size:14.5px;line-height:1.5;color:var(--graphite-soft);margin:0}
+  .tool .go{font-family:var(--mono);font-size:12.5px;color:var(--steel-ink);margin-top:auto;padding-top:6px}
+  a.tool .go::after{content:" →"}
+  .tool.wip{opacity:.92}
+
+  /* ---------- seuil ---------- */
+  .threshold .pull{margin-bottom:22px}
+
+  /* ---------- cousinage / pied ---------- */
+  footer{padding:56px 0 60px;border-top:1px solid var(--line)}
+  .foot-grid{display:grid;gap:28px}
+  @media(min-width:720px){.foot-grid{grid-template-columns:1.4fr 1fr}}
+  .cousin{font-size:15.5px;color:var(--graphite-soft);max-width:46ch}
+  .cousin a{color:var(--steel-ink);text-decoration:underline;text-underline-offset:2px}
+  .foot-meta{font-family:var(--mono);font-size:12.5px;color:var(--graphite-soft);line-height:1.9}
+  .foot-meta a{color:var(--graphite-soft);text-decoration:none;border-bottom:1px solid var(--line)}
+  .foot-meta a:hover{color:var(--steel-ink)}
+  .sign{font-family:var(--disp);font-weight:600;font-size:15px;color:var(--graphite);letter-spacing:-.01em}
+
+  ::selection{background:rgba(111,145,164,.3)}
+  a:focus-visible,.tool:focus-visible{outline:2px solid var(--steel);outline-offset:3px;border-radius:4px}
+
+  @media(prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    .snapline .cord{animation:none;stroke-dashoffset:0}
+    a.tool:hover{transform:none}
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap top-in">
+    <a class="brand" href="#"><span class="the">L'</span>Établi</a>
+    <nav class="top-nav">
+      <a href="#atelier">Les outils</a>
+      <a href="tribunes/les-chantiers.md">Les chantiers</a>
+      <a href="MANIFESTE.md">Manifeste</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <section class="hero">
+      <p class="eyebrow">Un établi partagé</p>
+      <h1>Reprendre <em>la&nbsp;main.</em></h1>
+      <div class="snapline" aria-hidden="true">
+        <svg viewBox="0 0 1000 22" preserveAspectRatio="none">
+          <circle class="peg" cx="4" cy="11" r="4"></circle>
+          <circle class="peg" cx="996" cy="11" r="4"></circle>
+          <line class="cord" x1="4" y1="11" x2="996" y2="11"></line>
+        </svg>
+      </div>
+      <p class="exergue">Rendre la carte, sans redessiner le territoire.</p>
+      <p class="lead">Beaucoup de démarches ont une part qu'on pourrait mener seul — si on nous rendait la carte. À la place, un intermédiaire s'installe en péage et fait payer l'accès au chemin. <strong>L'Établi rend la carte</strong>, accompagne jusqu'au seuil du professionnel vraiment nécessaire, et s'arrête là.</p>
+    </section>
+  </div>
+
+  <div class="wrap">
+    <section id="principe" class="split">
+      <div class="prose">
+        <p class="kicker">Le péage sur le navigable</p>
+        <p>Je n'ai pas commencé par une doctrine, mais par une gêne : celle d'avoir payé, cher, pour une démarche que j'aurais pu mener seul — non parce qu'elle était complexe, mais parce qu'on m'avait laissé croire qu'elle l'était.</p>
+        <p>Le vrai professionnel reste nécessaire à un moment : le notaire, le géomètre, le médecin. Ce n'est pas ce moment-là que je conteste. C'est le péage installé <em>en amont</em>, sur tout le trajet qu'une personne ordinaire pourrait parcourir seule. Ce péage tient par un seul ressort — l'<strong>intimidation procédurale</strong> : l'impression, entretenue, que c'est trop compliqué pour vous. Cette impression a un prix. C'est elle qu'on vend.</p>
+        <p class="pull">Rendre la carte, pas remplacer le guide.</p>
+      </div>
+
+      <div class="criteria" aria-label="Les trois critères">
+        <p class="kicker" style="margin-bottom:14px">Un sujet est à nous si…</p>
+        <div class="crit">
+          <span class="n">01 / voie</span>
+          <p class="t">Une voie publique existe</p>
+          <p class="d">La démarche peut se faire légalement, seul, par des moyens gratuits ou accessibles.</p>
+        </div>
+        <div class="crit">
+          <span class="n">02 / péage</span>
+          <p class="t">Un péage l'obscurcit</p>
+          <p class="d">Un intermédiaire se rémunère surtout sur l'accès au chemin, pas sur un savoir irremplaçable.</p>
+        </div>
+        <div class="crit">
+          <span class="n">03 / stabilité</span>
+          <p class="t">La démarche est stable</p>
+          <p class="d">Les règles ne changent pas tous les six mois — sinon un outil figé périme et devient un piège.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <section id="atelier" class="atelier">
+    <div class="wrap">
+      <p class="kicker">L'atelier</p>
+      <h2>Les outils posés sur l'établi</h2>
+      <p class="prose" style="color:var(--graphite-soft);margin-bottom:26px">Chacun est libre, gratuit, et tourne dans votre navigateur : vos données ne partent nulle part.</p>
+
+      <div class="grid">
+        <a class="tool" href="https://myaiinside-png.github.io/vendez/">
+          <span class="tag live"><span class="dot"></span>En ligne</span>
+          <h3>Vendre sans agence</h3>
+          <p>Reprendre la vente de son logement, de l'annonce au notaire, sans commission d'agence.</p>
+          <span class="go">Ouvrir l'outil</span>
+        </a>
+
+        <div class="tool wip">
+          <span class="tag soon"><span class="dot"></span>En chantier</span>
+          <h3>Assurance emprunteur</h3>
+          <p>Changer l'assurance de son prêt (loi Lemoine) et récupérer, souvent, plusieurs milliers d'euros.</p>
+          <span class="go">Bientôt</span>
+        </div>
+
+        <a class="tool" href="https://myaiinside-png.github.io/depart/">
+          <span class="tag live"><span class="dot"></span>En ligne</span>
+          <h3>Après un décès</h3>
+          <p>Traverser l'administratif d'un deuil sans s'y perdre, ni se faire happer par l'opacité des devis.</p>
+          <span class="go">Ouvrir l'outil</span>
+        </a>
+
+        <div class="tool wip">
+          <span class="tag soon"><span class="dot"></span>En chantier</span>
+          <h3>Comprendre sa parcelle</h3>
+          <p>Cadastre, PLU, servitudes, constructibilité : lire son terrain à partir des données publiques.</p>
+          <span class="go">Bientôt</span>
+        </div>
+
+        <div class="tool wip">
+          <span class="tag soon"><span class="dot"></span>En chantier</span>
+          <h3>Louer sans agence</h3>
+          <p>Bail, état des lieux, quittances — et récupérer une caution retenue à tort.</p>
+          <span class="go">Bientôt</span>
+        </div>
+
+        <div class="tool wip">
+          <span class="tag soon"><span class="dot"></span>En chantier</span>
+          <h3>Résilier &amp; récupérer</h3>
+          <p>Annuler un abonnement, contester des frais indus, écrire la bonne lettre de réclamation.</p>
+          <span class="go">Bientôt</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <section class="threshold">
+      <p class="kicker">Le seuil</p>
+      <p class="pull">On ne supprime personne. On accompagne jusqu'au seuil, puis on le dit&nbsp;: ici, ce n'est plus toi, c'est lui.</p>
+      <div class="prose" style="color:var(--graphite-soft)">
+        <p>L'Établi n'est pas une plateforme et ne cherche pas à remplacer les métiers. Il garde le professionnel là où il est vraiment nécessaire, et refuse seulement le péage sur le reste. Pas de commission, pas de compte à créer, pas de données captées. Remplacer un péage par un autre n'aurait aucun sens.</p>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap foot-grid">
+    <p class="cousin">L'Établi partage l'esprit d'<a href="https://iam-inside.eu">IA'm</a> — même souci de l'honnêteté, du fait-main, de l'humain qui reste maître de ses choix — mais c'est une maison à part.</p>
+    <div class="foot-meta">
+      <div class="sign">L'Établi — l'atelier de Joseph</div>
+      <a href="mailto:l.etabli.de.joseph@gmail.com">l.etabli.de.joseph@gmail.com</a><br>
+      Textes sous <a href="https://creativecommons.org/licenses/by/4.0/deed.fr">CC BY 4.0</a> · Code sous <a href="https://www.gnu.org/licenses/agpl-3.0.html">AGPL-3.0</a><br>
+      <a href="https://github.com/myaiinside-png/letabli">Le dépôt sur GitHub</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
